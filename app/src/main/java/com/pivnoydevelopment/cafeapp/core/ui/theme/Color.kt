@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp.ui.theme
+package com.pivnoydevelopment.cafeapp.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

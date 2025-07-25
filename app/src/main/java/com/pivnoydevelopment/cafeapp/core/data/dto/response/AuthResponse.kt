@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp.data.dto.response
+package com.pivnoydevelopment.cafeapp.core.data.dto.response
 
 data class AuthResponse(
     val token: String,

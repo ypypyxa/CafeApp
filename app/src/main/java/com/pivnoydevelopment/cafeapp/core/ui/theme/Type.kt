@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp.ui.theme
+package com.pivnoydevelopment.cafeapp.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

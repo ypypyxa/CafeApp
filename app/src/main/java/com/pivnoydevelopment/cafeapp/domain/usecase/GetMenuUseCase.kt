@@ -1,6 +1,6 @@
 package com.pivnoydevelopment.cafeapp.domain.usecase
 
-import com.pivnoydevelopment.cafeapp.data.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.domain.model.MenuItem
 
 interface GetMenuUseCase {

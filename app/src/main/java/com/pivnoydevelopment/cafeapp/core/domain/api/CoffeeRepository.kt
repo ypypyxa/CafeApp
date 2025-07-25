@@ -1,7 +1,7 @@
-package com.pivnoydevelopment.cafeapp.domain.api
+package com.pivnoydevelopment.cafeapp.core.domain.api
 
-import com.pivnoydevelopment.cafeapp.data.util.NetworkResult
-import com.pivnoydevelopment.cafeapp.domain.model.AuthData
+import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.domain.model.AuthData
 import com.pivnoydevelopment.cafeapp.domain.model.Location
 import com.pivnoydevelopment.cafeapp.domain.model.MenuItem
 

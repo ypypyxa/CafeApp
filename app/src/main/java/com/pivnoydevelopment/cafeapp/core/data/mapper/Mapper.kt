@@ -1,16 +1,20 @@
-package com.pivnoydevelopment.cafeapp.data.util
+package com.pivnoydevelopment.cafeapp.core.data.mapper
 
 import com.pivnoydevelopment.cafeapp.data.dto.LocationDto
 import com.pivnoydevelopment.cafeapp.data.dto.MenuItemDto
 import com.pivnoydevelopment.cafeapp.data.dto.PointDto
-import com.pivnoydevelopment.cafeapp.data.dto.response.AuthResponse
-import com.pivnoydevelopment.cafeapp.domain.model.AuthData
+import com.pivnoydevelopment.cafeapp.core.data.dto.response.AuthResponse
+import com.pivnoydevelopment.cafeapp.core.domain.model.AuthData
 import com.pivnoydevelopment.cafeapp.domain.model.Location
 import com.pivnoydevelopment.cafeapp.domain.model.MenuItem
 import com.pivnoydevelopment.cafeapp.domain.model.Point
 
 fun AuthResponse.toAuthData(): AuthData {
-    return AuthData(token, tokenLifeTime)
+    return AuthData(
+        token = token,
+        tokenLifeTime = tokenLifeTime,
+        savedAt = System.currentTimeMillis()
+    )
 }
 
 fun PointDto.toPoint(): Point {

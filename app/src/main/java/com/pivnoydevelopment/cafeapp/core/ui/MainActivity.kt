@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp
+package com.pivnoydevelopment.cafeapp.core.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.pivnoydevelopment.cafeapp.ui.theme.CafeAppTheme
+import com.pivnoydevelopment.cafeapp.core.ui.theme.CafeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

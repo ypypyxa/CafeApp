@@ -1,11 +1,12 @@
 package com.pivnoydevelopment.cafeapp.domain.impl
 
-import com.pivnoydevelopment.cafeapp.data.util.NetworkResult
-import com.pivnoydevelopment.cafeapp.domain.api.CoffeeRepository
+import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
 import com.pivnoydevelopment.cafeapp.domain.usecase.LoginUseCase
-import com.pivnoydevelopment.cafeapp.domain.model.AuthData
+import com.pivnoydevelopment.cafeapp.core.domain.model.AuthData
+import javax.inject.Inject
 
-class LoginUseCaseImpl(
+class LoginUseCaseImpl @Inject constructor(
     private val repository: CoffeeRepository
 ) : LoginUseCase {
     override suspend fun invoke(login: String, password: String): NetworkResult<AuthData> {
