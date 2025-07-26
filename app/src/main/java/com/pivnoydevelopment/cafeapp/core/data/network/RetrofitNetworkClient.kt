@@ -5,11 +5,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
-import com.pivnoydevelopment.cafeapp.core.data.dto.request.AuthRequest
-import com.pivnoydevelopment.cafeapp.core.data.dto.response.AuthResponse
+import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthRequest
+import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthResponse
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
-import com.pivnoydevelopment.cafeapp.data.dto.response.LocationsResponse
-import com.pivnoydevelopment.cafeapp.data.dto.response.MenuResponse
+import com.pivnoydevelopment.cafeapp.features.locations.data.dto.LocationsResponse
+import com.pivnoydevelopment.cafeapp.features.menu.data.dto.MenuResponse
 
 class RetrofitNetworkClient(
     private val api: CoffeeApiService,

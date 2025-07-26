@@ -1,15 +1,15 @@
 package com.pivnoydevelopment.cafeapp.core.data.impl
 
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
-import com.pivnoydevelopment.cafeapp.core.data.dto.request.AuthRequest
 import com.pivnoydevelopment.cafeapp.core.data.mapper.toAuthData
 import com.pivnoydevelopment.cafeapp.core.data.mapper.toLocation
 import com.pivnoydevelopment.cafeapp.core.data.mapper.toMenuItem
 import com.pivnoydevelopment.cafeapp.core.data.network.CoffeeApiService
 import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
-import com.pivnoydevelopment.cafeapp.core.domain.model.AuthData
-import com.pivnoydevelopment.cafeapp.domain.model.Location
-import com.pivnoydevelopment.cafeapp.domain.model.MenuItem
+import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthRequest
+import com.pivnoydevelopment.cafeapp.features.auth.domain.model.AuthData
+import com.pivnoydevelopment.cafeapp.features.locations.domain.model.Location
+import com.pivnoydevelopment.cafeapp.features.menu.domain.model.MenuItem
 
 class CoffeeRepositoryImpl(
     private val api: CoffeeApiService
