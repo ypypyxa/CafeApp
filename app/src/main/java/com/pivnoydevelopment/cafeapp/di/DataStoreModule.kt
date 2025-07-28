@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.pivnoydevelopment.cafeapp.features.auth.data.datastore.AuthDataStore
 import com.pivnoydevelopment.cafeapp.features.auth.data.impl.AuthDataStoreImpl
 import dagger.Module
 import dagger.Provides
@@ -26,6 +27,6 @@ object DataStoreModule {
 
     @Provides
     @Singleton
-    fun provideAuthDataStore(dataStore: DataStore<Preferences>): AuthDataStoreImpl =
+    fun provideAuthDataStore(dataStore: DataStore<Preferences>): AuthDataStore =
         AuthDataStoreImpl(dataStore)
 }
