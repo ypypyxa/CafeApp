@@ -1,6 +1,8 @@
 package com.pivnoydevelopment.cafeapp.di
 
+import com.pivnoydevelopment.cafeapp.core.data.impl.CoffeeRepositoryImpl
 import com.pivnoydevelopment.cafeapp.core.data.network.CoffeeApiService
+import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +30,10 @@ object NetworkModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): CoffeeApiService =
         retrofit.create(CoffeeApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCoffeeRepository(apiService: CoffeeApiService): CoffeeRepository {
+        return CoffeeRepositoryImpl(apiService)
+    }
 }

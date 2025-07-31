@@ -10,8 +10,9 @@ import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthRequest
 import com.pivnoydevelopment.cafeapp.features.auth.domain.model.AuthData
 import com.pivnoydevelopment.cafeapp.features.locations.domain.model.Location
 import com.pivnoydevelopment.cafeapp.features.menu.domain.model.MenuItem
+import javax.inject.Inject
 
-class CoffeeRepositoryImpl(
+class CoffeeRepositoryImpl @Inject constructor(
     private val api: CoffeeApiService
 ) : CoffeeRepository {
 

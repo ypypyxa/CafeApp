@@ -45,7 +45,7 @@ fun SplashScreen(
         if (progress == 1f) {
             when (state) {
                 is Authorized -> {
-                    navController.navigate(Routes.Locations.route) {
+                    navController.navigate(Routes.CoffeeList.route) {
                         popUpTo(Routes.Splash.route) { inclusive = true }
                     }
                 }

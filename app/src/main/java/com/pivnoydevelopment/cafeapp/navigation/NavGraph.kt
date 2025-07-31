@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.LoginScreen
-import com.pivnoydevelopment.cafeapp.features.auth.ui.register.RegisterScreen
+import com.pivnoydevelopment.cafeapp.features.auth.ui.register.screen.RegisterScreen
 import com.pivnoydevelopment.cafeapp.features.cart.ui.CartScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeListScreen.CoffeeListScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeMapScreen.CoffeeMapScreen
@@ -22,12 +22,10 @@ fun NavGraph(navController: NavHostController, startDestination: String) {
             SplashScreen(navController)
         }
         composable("login") {
-            LoginScreen()
-//            LoginScreen(navController)
+            LoginScreen(navController)
         }
         composable("register") {
-            RegisterScreen()
-//            RegisterScreen(navController)
+            RegisterScreen(navController)
         }
         composable("coffee_list") {
             CoffeeListScreen()

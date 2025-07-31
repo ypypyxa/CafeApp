@@ -25,9 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTextField
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EmeraldSprout
@@ -36,11 +36,11 @@ import com.pivnoydevelopment.cafeapp.core.ui.theme.IvoryWhisper
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieShade
 import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
+import com.pivnoydevelopment.cafeapp.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var login by remember { mutableStateOf("") }
     val emailPattern = android.util.Patterns.EMAIL_ADDRESS
     val loginError = if (login.isNotEmpty() && !emailPattern.matcher(login).matches())
@@ -84,7 +84,8 @@ fun LoginScreen() {
                     value = login,
                     onValueChange = { login = it },
                     label = "E-mail",
-                    errorMessage = loginError
+                    errorMessage = loginError,
+                    isEmail = true
                 )
 
                 CustomTextField(
@@ -133,7 +134,7 @@ fun LoginScreen() {
                     Text(
                         modifier = Modifier
                             .clickable{
-                                //TODO Переход на экран регистрации
+                                navController.navigate(Routes.Register.route)
                             },
                         textAlign = TextAlign.Center,
                         color = EmeraldSprout,
