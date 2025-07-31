@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp.features.auth.ui.login
+package com.pivnoydevelopment.cafeapp.features.auth.ui.login.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,10 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTextField
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
@@ -36,17 +36,25 @@ import com.pivnoydevelopment.cafeapp.core.ui.theme.IvoryWhisper
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieShade
 import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
+import com.pivnoydevelopment.cafeapp.features.auth.ui.login.event.LoginEvent
+import com.pivnoydevelopment.cafeapp.features.auth.ui.login.viewmodel.LoginViewModel
 import com.pivnoydevelopment.cafeapp.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
-    var login by remember { mutableStateOf("") }
-    val emailPattern = android.util.Patterns.EMAIL_ADDRESS
-    val loginError = if (login.isNotEmpty() && !emailPattern.matcher(login).matches())
-        "Введите корректный e-mail" else null
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
 
-    var password by remember { mutableStateOf("") }
+    LaunchedEffect(state.navigateToCoffeeList) {
+        if (state.navigateToCoffeeList) {
+            navController.navigate(Routes.CoffeeList.route) {
+                popUpTo(Routes.Login.route) { inclusive = true }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -81,10 +89,10 @@ fun LoginScreen(navController: NavController) {
                 CustomTextField(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
-                    value = login,
-                    onValueChange = { login = it },
+                    value = state.login,
+                    onValueChange = { viewModel.onEvent(LoginEvent.LoginChanged(it))},
                     label = "E-mail",
-                    errorMessage = loginError,
+                    errorMessage = state.loginError,
                     isEmail = true
                 )
 
@@ -95,9 +103,10 @@ fun LoginScreen(navController: NavController) {
                             end = 16.dp,
                             top = 24.dp
                         ),
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = { viewModel.onEvent(LoginEvent.PasswordChanged(it)) },
                     label = "Пароль",
+                    errorMessage = state.passwordError,
                     isPassword = true
                 )
 
@@ -112,14 +121,15 @@ fun LoginScreen(navController: NavController) {
                         .height(50.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = EspressoDepth,
-                        contentColor = VanillaCream
+                        contentColor = VanillaCream,
+                        disabledContainerColor = EspressoDepth.copy(alpha = 0.5f),
+                        disabledContentColor = VanillaCream.copy(alpha = 0.5f)
                     ),
-                    onClick = {
-                        //TODO Авторизация
-                    }
+                    enabled = state.isButtonEnabled,
+                    onClick = { viewModel.onEvent(LoginEvent.Submit) }
                 ) {
                     Text(
-                        text = "Войти",
+                        text = if (state.isLoading) "Загрузка..." else "Войти",
                         fontSize = 18.sp,
                         fontWeight = FontWeight(700)
                     )

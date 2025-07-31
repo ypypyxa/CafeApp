@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.pivnoydevelopment.cafeapp.features.auth.ui.login.LoginScreen
+import com.pivnoydevelopment.cafeapp.features.auth.ui.login.screen.LoginScreen
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.screen.RegisterScreen
 import com.pivnoydevelopment.cafeapp.features.cart.ui.CartScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeListScreen.CoffeeListScreen
