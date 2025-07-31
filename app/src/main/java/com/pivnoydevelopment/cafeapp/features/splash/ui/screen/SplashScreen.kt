@@ -1,5 +1,6 @@
 package com.pivnoydevelopment.cafeapp.features.splash.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.pivnoydevelopment.cafeapp.R
+import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.splash.ui.state.Authorized
 import com.pivnoydevelopment.cafeapp.features.splash.ui.event.CheckAuth
 import com.pivnoydevelopment.cafeapp.features.splash.ui.state.Loading
@@ -58,7 +60,9 @@ fun SplashScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(White),
         contentAlignment = Alignment.Center
     ) {
         LottieAnimation(
