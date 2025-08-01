@@ -75,6 +75,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
 
+    //Геопозиция
+    implementation(libs.play.services.location)
+
     //Тесты
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

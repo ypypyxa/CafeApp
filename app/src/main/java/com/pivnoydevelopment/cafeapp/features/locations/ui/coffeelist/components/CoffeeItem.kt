@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeListScreen.components
+package com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.sp
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieGlaze
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieShade
 import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
+import java.util.Locale
 
 @Preview(showBackground = false)
 @Composable
 fun CoffeeItem(
     title: String = "BEDOEV COFFEE",
-    distance: Int = 1
+    distance: Float? = null
 ) {
     Column(
         modifier = Modifier
@@ -53,17 +54,38 @@ fun CoffeeItem(
             fontSize = 18.sp,
             fontWeight = FontWeight(700)
         )
-        Text(
-            modifier = Modifier.padding(
-                top = 3.dp,
-                start = 10.dp,
-                end = 10.dp,
-                bottom = 10.dp
-            ),
-            text = "${distance}км от Вас",
-            color = ToffieGlaze,
-            fontSize = 14.sp,
-            fontWeight = FontWeight(400)
-        )
+
+        if (distance != null) {
+            Text(
+                modifier = Modifier.padding(
+                    top = 3.dp,
+                    start = 10.dp,
+                    end = 10.dp,
+                    bottom = 10.dp
+                ),
+                text = if (distance < 1) {
+                    "${(distance * 1000).toInt()}м от Вас"
+                } else {
+                    String.format(Locale.getDefault(), "%.0fкм от Вас", distance)
+                },
+                color = ToffieGlaze,
+                fontSize = 14.sp,
+                fontWeight = FontWeight(400)
+            )
+        } else {
+            Text(
+                modifier = Modifier.padding(
+                    top = 3.dp,
+                    start = 10.dp,
+                    end = 10.dp,
+                    bottom = 10.dp
+                ),
+                text = "Расстояние неизвестно",
+                color = ToffieGlaze,
+                fontSize = 14.sp,
+                fontWeight = FontWeight(400)
+            )
+        }
+
     }
 }
