@@ -1,11 +1,15 @@
 package com.pivnoydevelopment.cafeapp.di
 
+import android.content.Context
 import com.pivnoydevelopment.cafeapp.core.data.impl.CoffeeRepositoryImpl
 import com.pivnoydevelopment.cafeapp.core.data.network.CoffeeApiService
+import com.pivnoydevelopment.cafeapp.core.data.network.NetworkClient
+import com.pivnoydevelopment.cafeapp.core.data.network.RetrofitNetworkClient
 import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -33,7 +37,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCoffeeRepository(apiService: CoffeeApiService): CoffeeRepository {
+    fun provideNetworkClient(
+        apiService: CoffeeApiService,
+        @ApplicationContext context: Context
+    ): NetworkClient {
+        return RetrofitNetworkClient(apiService, context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoffeeRepository(apiService: NetworkClient): CoffeeRepository {
         return CoffeeRepositoryImpl(apiService)
     }
 }

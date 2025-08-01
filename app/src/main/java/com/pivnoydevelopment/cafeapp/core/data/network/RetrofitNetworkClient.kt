@@ -10,14 +10,15 @@ import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthResponse
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.features.locations.data.dto.LocationsResponse
 import com.pivnoydevelopment.cafeapp.features.menu.data.dto.MenuResponse
+import javax.inject.Inject
 
-class RetrofitNetworkClient(
+class RetrofitNetworkClient @Inject constructor(
     private val api: CoffeeApiService,
     private val context: Context
 ) : NetworkClient {
 
     override suspend fun login(login: String, password: String): NetworkResult<AuthResponse> {
-        if (isConnected()) {
+        if (!isConnected()) {
             return NetworkResult.Error(-1, "No internet connection")
         }
 
@@ -35,7 +36,7 @@ class RetrofitNetworkClient(
     }
 
     override suspend fun register(login: String, password: String): NetworkResult<AuthResponse> {
-        if (isConnected()) {
+        if (!isConnected()) {
             return NetworkResult.Error(-1, "No internet connection")
         }
 
@@ -53,7 +54,7 @@ class RetrofitNetworkClient(
     }
 
     override suspend fun getLocations(token: String): NetworkResult<LocationsResponse> {
-        if (isConnected()) {
+        if (!isConnected()) {
             return NetworkResult.Error(-1, "No internet connection")
         }
 
@@ -70,7 +71,7 @@ class RetrofitNetworkClient(
     }
 
     override suspend fun getMenu(token: String, locationId: Int): NetworkResult<MenuResponse> {
-        if (isConnected()) {
+        if (!isConnected()) {
             return NetworkResult.Error(-1, "No internet connection")
         }
 
