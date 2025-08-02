@@ -13,8 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,11 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTextField
+import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EmeraldSprout
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EspressoDepth
-import com.pivnoydevelopment.cafeapp.core.ui.theme.IvoryWhisper
-import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieShade
 import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.event.LoginEvent
@@ -58,20 +55,7 @@ fun LoginScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = IvoryWhisper,
-                ),
-                title = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight(700),
-                        fontSize = 18.sp,
-                        color = ToffieShade,
-                        text = "Вход")
-                }
-            )
+            CustomTopAppBar(title = "Вход")
         }
     ) { innerPadding ->
         Column(modifier = Modifier

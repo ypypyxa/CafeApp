@@ -2,6 +2,7 @@ package com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
 import com.pivnoydevelopment.cafeapp.features.locations.domain.usecase.GetLocationsUseCase
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CoffeeListViewModel @Inject constructor(
     private val getLocationsUseCase: GetLocationsUseCase,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val locationClient: FusedLocationProviderClient
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CoffeeListState())
@@ -103,6 +105,26 @@ class CoffeeListViewModel @Inject constructor(
                         it.copy(isLoading = false, errorMessage = "Неизвестная ошибка")
                     }
                 }
+            }
+        }
+    }
+
+    fun fetchLastLocation() {
+        viewModelScope.launch {
+            try {
+                locationClient.lastLocation.addOnSuccessListener { location ->
+                    location?.let {
+                        _state.update {
+                            it.copy(
+                                userLatitude = location.latitude,
+                                userLongitude = location.longitude
+                            )
+                        }
+                        onEvent(CoffeeListEvent.LoadLocations)
+                    }
+                }
+            } catch (e: SecurityException) {
+                _state.update { it.copy(errorMessage = e.message) }
             }
         }
     }

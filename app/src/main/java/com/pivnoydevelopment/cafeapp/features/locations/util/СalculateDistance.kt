@@ -1,4 +1,6 @@
-package com.pivnoydevelopment.cafeapp.features.locations
+package com.pivnoydevelopment.cafeapp.features.locations.util
+
+import android.location.Location
 
 fun calculateDistance(
     lat1: Double,
@@ -9,7 +11,7 @@ fun calculateDistance(
     if (lat1 == 0.0 && lon1 == 0.0) return null
 
     val result = FloatArray(1)
-    android.location.Location.distanceBetween(
+    Location.distanceBetween(
         lat1,
         lon1,
         lat2,
