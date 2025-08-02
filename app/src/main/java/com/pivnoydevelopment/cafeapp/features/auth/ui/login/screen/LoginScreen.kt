@@ -35,7 +35,9 @@ import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.event.LoginEvent
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.viewmodel.LoginViewModel
-import com.pivnoydevelopment.cafeapp.navigation.Routes
+import com.pivnoydevelopment.cafeapp.navigation.CoffeeList
+import com.pivnoydevelopment.cafeapp.navigation.Login
+import com.pivnoydevelopment.cafeapp.navigation.Register
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,8 +49,8 @@ fun LoginScreen(
 
     LaunchedEffect(state.navigateToCoffeeList) {
         if (state.navigateToCoffeeList) {
-            navController.navigate(Routes.CoffeeList.route) {
-                popUpTo(Routes.Login.route) { inclusive = true }
+            navController.navigate(CoffeeList) {
+                popUpTo(Login) { inclusive = true }
             }
         }
     }
@@ -128,7 +130,7 @@ fun LoginScreen(
                     Text(
                         modifier = Modifier
                             .clickable{
-                                navController.navigate(Routes.Register.route)
+                                navController.navigate(Register)
                             },
                         textAlign = TextAlign.Center,
                         color = EmeraldSprout,

@@ -37,7 +37,8 @@ import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.PermissionDialog
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.event.CoffeeListEvent
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.viewmodel.CoffeeListViewModel
-import com.pivnoydevelopment.cafeapp.navigation.Routes
+import com.pivnoydevelopment.cafeapp.navigation.Login
+import com.pivnoydevelopment.cafeapp.navigation.Menu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,23 +61,21 @@ fun CoffeeListScreen(
     )
 
     LaunchedEffect(lifecycleOwner) {
-        if (state.locations.isEmpty()) {
-            val observer = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_RESUME) {
-                    val granted = ContextCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) == PackageManager.PERMISSION_GRANTED
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME && state.locations.isEmpty()) {
+                val granted = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
 
-                    if (granted) {
-                        viewModel.fetchLastLocation()
-                    } else if (!state.showPermissionDialog) {
-                        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                    }
+                if (granted) {
+                    viewModel.fetchLastLocation()
+                } else if (!state.showPermissionDialog) {
+                    permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                 }
             }
-            lifecycleOwner.lifecycle.addObserver(observer)
         }
+        lifecycleOwner.lifecycle.addObserver(observer)
     }
 
     if (state.showPermissionDialog) {
@@ -95,8 +94,8 @@ fun CoffeeListScreen(
         LogoutDialog(
             onConfirm = {
                 viewModel.onEvent(CoffeeListEvent.Logout)
-                navController.navigate(Routes.Login.route) {
-                    popUpTo(Routes.Login.route) { inclusive = true }
+                navController.navigate(Login) {
+                    popUpTo(Login) { inclusive = true }
                 }
             },
             onDismiss = { viewModel.onEvent(CoffeeListEvent.DismissLogoutDialog) }
@@ -136,7 +135,10 @@ fun CoffeeListScreen(
                                 state.userLongitude ?: 0.0,
                                 location.point.latitude,
                                 location.point.longitude
-                            )
+                            ),
+                            onClick = {
+                                navController.navigate(Menu(location.id))
+                            }
                         )
                     }
                 }

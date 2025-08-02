@@ -1,6 +1,7 @@
 package com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,7 +24,8 @@ import java.util.Locale
 @Composable
 fun CoffeeItem(
     title: String = "BEDOEV COFFEE",
-    distance: Float? = null
+    distance: Float? = null,
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -41,6 +43,7 @@ fun CoffeeItem(
             )
             .clip(RoundedCornerShape(5.dp))
             .background(VanillaCream)
+            .clickable { onClick() }
     ) {
         Text(
             modifier = Modifier.padding(

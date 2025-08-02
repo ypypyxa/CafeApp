@@ -30,7 +30,8 @@ import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.event.RegisterEvent
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.viewmodel.RegisterViewModel
-import com.pivnoydevelopment.cafeapp.navigation.Routes
+import com.pivnoydevelopment.cafeapp.navigation.CoffeeList
+import com.pivnoydevelopment.cafeapp.navigation.Register
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,11 +41,9 @@ fun RegisterScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(state.navigateToCoffeeList) {
-        if (state.navigateToCoffeeList) {
-            navController.navigate(Routes.CoffeeList.route) {
-                popUpTo(Routes.Register.route) { inclusive = true }
-            }
+    if (state.navigateToCoffeeList) {
+        navController.navigate(CoffeeList) {
+            popUpTo(Register) { inclusive = true }
         }
     }
 

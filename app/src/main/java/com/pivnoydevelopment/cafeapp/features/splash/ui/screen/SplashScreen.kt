@@ -22,7 +22,9 @@ import com.pivnoydevelopment.cafeapp.features.splash.ui.event.CheckAuth
 import com.pivnoydevelopment.cafeapp.features.splash.ui.state.Loading
 import com.pivnoydevelopment.cafeapp.features.splash.ui.viewmodel.SplashViewModel
 import com.pivnoydevelopment.cafeapp.features.splash.ui.state.Unauthorized
-import com.pivnoydevelopment.cafeapp.navigation.Routes
+import com.pivnoydevelopment.cafeapp.navigation.CoffeeList
+import com.pivnoydevelopment.cafeapp.navigation.Login
+import com.pivnoydevelopment.cafeapp.navigation.Splash
 
 @Composable
 fun SplashScreen(
@@ -45,13 +47,13 @@ fun SplashScreen(
         if (progress == 1f) {
             when (state) {
                 is Authorized -> {
-                    navController.navigate(Routes.CoffeeList.route) {
-                        popUpTo(Routes.Splash.route) { inclusive = true }
+                    navController.navigate(CoffeeList) {
+                        popUpTo(Splash) { inclusive = true }
                     }
                 }
                 is Unauthorized -> {
-                    navController.navigate(Routes.Login.route) {
-                        popUpTo(Routes.Splash.route) { inclusive = true }
+                    navController.navigate(Login) {
+                        popUpTo(Splash) { inclusive = true }
                     }
                 }
                 Loading -> Unit

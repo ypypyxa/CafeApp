@@ -5,6 +5,7 @@ plugins {
 
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -74,6 +75,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
+    //Сериализация
+    implementation(libs.kotlinx.serialization.json)
 
     //Геопозиция
     implementation(libs.play.services.location)
