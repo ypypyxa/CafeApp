@@ -1,5 +1,6 @@
 package com.pivnoydevelopment.cafeapp.navigation
 
+import com.pivnoydevelopment.cafeapp.features.menu.domain.model.MenuItem
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -21,4 +22,4 @@ object CoffeeMap
 data class Menu(val id: Int)
 
 @Serializable
-object Cart
+data class Cart(val items: List<MenuItem>)

@@ -78,7 +78,7 @@ class RetrofitNetworkClient @Inject constructor(
         return try {
             val response = api.getMenu("Bearer $token", locationId)
             when {
-                response.isSuccessful -> NetworkResult.Success(response.body()!!)
+                response.isSuccessful -> NetworkResult.Success(MenuResponse(response.body()!!))
                 response.code() == 401 -> NetworkResult.Unauthorized
                 else -> NetworkResult.Error(response.code(), response.errorBody()?.string())
             }

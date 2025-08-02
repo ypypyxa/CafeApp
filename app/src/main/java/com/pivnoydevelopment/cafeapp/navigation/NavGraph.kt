@@ -10,7 +10,7 @@ import com.pivnoydevelopment.cafeapp.features.auth.ui.register.screen.RegisterSc
 import com.pivnoydevelopment.cafeapp.features.cart.ui.CartScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.screen.CoffeeListScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeMapScreen.CoffeeMapScreen
-import com.pivnoydevelopment.cafeapp.features.menu.ui.MenuScreen
+import com.pivnoydevelopment.cafeapp.features.menu.ui.screen.MenuScreen
 import com.pivnoydevelopment.cafeapp.features.splash.ui.screen.SplashScreen
 
 @Composable
@@ -39,9 +39,9 @@ fun NavGraph(navController: NavHostController) {
             val menu = backStackEntry.toRoute<Menu>()
             MenuScreen(navController = navController, id = menu.id)
         }
-        composable<Cart> {
-            CartScreen()
-//            CartScreen(navController)
+        composable<Cart> { backStackEntry ->
+            val cart = backStackEntry.toRoute<Cart>()
+            CartScreen( /* cart.items */ )
         }
     }
 }
