@@ -21,7 +21,7 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "Cart.db"
+            "сart.db"
         ).build()
     }
 
