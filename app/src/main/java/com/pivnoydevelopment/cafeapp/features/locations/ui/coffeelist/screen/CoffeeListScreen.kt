@@ -43,8 +43,8 @@ import com.pivnoydevelopment.cafeapp.navigation.Menu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoffeeListScreen(
-    viewModel: CoffeeListViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    viewModel: CoffeeListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
@@ -137,7 +137,7 @@ fun CoffeeListScreen(
                                 location.point.longitude
                             ),
                             onClick = {
-                                navController.navigate(Menu(location.id))
+                                navController.navigate(Menu(location.id, location.name))
                             }
                         )
                     }

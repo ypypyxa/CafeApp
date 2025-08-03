@@ -18,7 +18,10 @@ object CoffeeList
 object CoffeeMap
 
 @Serializable
-data class Menu(val id: Int)
+data class Menu(
+    val id: Int,
+    val name: String
+)
 
 @Serializable
 object Cart

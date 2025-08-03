@@ -41,6 +41,7 @@ import com.pivnoydevelopment.cafeapp.features.menu.ui.viewmodel.MenuViewModel
 fun MenuScreen(
     navController: NavController,
     id: Int,
+    name: String,
     viewModel: MenuViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -91,8 +92,8 @@ fun MenuScreen(
                                 price = item.price,
                                 count = item.count,
                                 imageUrl = item.imageUrl,
-                                onIncrease = { viewModel.onEvent(MenuEvent.AddItem(item)) },
-                                onDecrease = { viewModel.onEvent(MenuEvent.RemoveItem(item)) }
+                                onIncrease = { viewModel.onEvent(MenuEvent.AddItem(id, name, item)) },
+                                onDecrease = { viewModel.onEvent(MenuEvent.RemoveItem(id, item)) }
                             )
                         }
                     }

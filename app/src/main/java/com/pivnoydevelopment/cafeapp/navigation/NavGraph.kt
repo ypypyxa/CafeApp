@@ -37,7 +37,11 @@ fun NavGraph(navController: NavHostController) {
         }
         composable<Menu> { backStackEntry ->
             val menu = backStackEntry.toRoute<Menu>()
-            MenuScreen(navController = navController, id = menu.id)
+            MenuScreen(
+                navController = navController,
+                id = menu.id,
+                name = menu.name
+            )
         }
         composable<Cart> {
             CartScreen(navController = navController)

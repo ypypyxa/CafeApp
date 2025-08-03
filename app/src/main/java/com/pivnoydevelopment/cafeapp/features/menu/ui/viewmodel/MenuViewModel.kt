@@ -2,8 +2,10 @@ package com.pivnoydevelopment.cafeapp.features.menu.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pivnoydevelopment.cafeapp.core.domain.db.api.CartInteractor
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
+import com.pivnoydevelopment.cafeapp.features.menu.domain.model.MenuItem
 import com.pivnoydevelopment.cafeapp.features.menu.domain.usecase.GetMenuUseCase
 import com.pivnoydevelopment.cafeapp.features.menu.ui.event.MenuEvent
 import com.pivnoydevelopment.cafeapp.features.menu.ui.state.MenuState
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val getMenuUseCase: GetMenuUseCase,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val cartUseCase: CartInteractor
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MenuState())
@@ -29,10 +32,10 @@ class MenuViewModel @Inject constructor(
                 loadMenu(event)
             }
             is MenuEvent.AddItem -> {
-                updateItemCount(event.item.id, 1)
+                addItemToCart(event.locationId, event.locationName, event.item)
             }
             is MenuEvent.RemoveItem -> {
-                updateItemCount(event.item.id, -1)
+                removeItemFromCart(event.locationId, event.item)
             }
         }
     }
@@ -47,6 +50,7 @@ class MenuViewModel @Inject constructor(
                         _state.update {
                             it.copy(isLoading = false, menuItems = result.data)
                         }
+                        syncCartCounts(event.id)
                     }
                     is NetworkResult.Unauthorized -> {
                         _state.update {
@@ -70,6 +74,36 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    private fun addItemToCart(
+        locationId: Int,
+        locationName: String,
+        item: MenuItem
+    ) {
+        updateItemCount(item.id, 1)
+        viewModelScope.launch {
+            cartUseCase.addItem(
+                locationId = locationId,
+                locationName = locationName,
+                menuItem = item.copy(count = getItemCount(item.id) + 1)
+            )
+            cartUseCase.changeItemCount(locationId, item.id, getItemCount(item.id))
+        }
+    }
+
+    private fun removeItemFromCart(
+        locationId: Int,
+        item: MenuItem
+    ) {
+        updateItemCount(item.id, -1)
+        viewModelScope.launch {
+            val newCount = getItemCount(item.id)
+            cartUseCase.changeItemCount(locationId, item.id, newCount)
+            if (newCount == 0) {
+                cartUseCase.deleteZeroCountItems()
+            }
+        }
+    }
+
     private fun updateItemCount(itemId: Int, delta: Int) {
         _state.update { state ->
             val updated = state.menuItems.map {
@@ -77,6 +111,23 @@ class MenuViewModel @Inject constructor(
                 else it
             }
             state.copy(menuItems = updated)
+        }
+    }
+
+    private fun getItemCount(itemId: Int): Int {
+        return _state.value.menuItems.find { it.id == itemId }?.count ?: 0
+    }
+
+    private fun syncCartCounts(locationId: Int) {
+        viewModelScope.launch {
+            val cartItems = cartUseCase.getLocationCart(locationId)
+            _state.update { state ->
+                val updatedMenu = state.menuItems.map { menuItem ->
+                    val cartItem = cartItems.find { it.id == menuItem.id }
+                    menuItem.copy(count = cartItem?.count ?: 0)
+                }
+                state.copy(menuItems = updatedMenu)
+            }
         }
     }
 }
