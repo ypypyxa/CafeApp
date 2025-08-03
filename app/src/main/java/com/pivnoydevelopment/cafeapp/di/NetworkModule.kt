@@ -1,11 +1,9 @@
 package com.pivnoydevelopment.cafeapp.di
 
 import android.content.Context
-import com.pivnoydevelopment.cafeapp.core.data.impl.CoffeeRepositoryImpl
 import com.pivnoydevelopment.cafeapp.core.data.network.CoffeeApiService
 import com.pivnoydevelopment.cafeapp.core.data.network.NetworkClient
 import com.pivnoydevelopment.cafeapp.core.data.network.RetrofitNetworkClient
-import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,11 +40,5 @@ object NetworkModule {
         @ApplicationContext context: Context
     ): NetworkClient {
         return RetrofitNetworkClient(apiService, context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCoffeeRepository(apiService: NetworkClient): CoffeeRepository {
-        return CoffeeRepositoryImpl(apiService)
     }
 }

@@ -1,6 +1,9 @@
 package com.pivnoydevelopment.cafeapp.di
 
-import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
+import com.pivnoydevelopment.cafeapp.core.domain.db.api.CartInteractor
+import com.pivnoydevelopment.cafeapp.core.domain.db.api.CartRepository
+import com.pivnoydevelopment.cafeapp.core.domain.db.usecase.CartUseCaseImpl
+import com.pivnoydevelopment.cafeapp.core.domain.network.api.CoffeeRepository
 import com.pivnoydevelopment.cafeapp.features.locations.domain.impl.GetLocationsUseCaseImpl
 import com.pivnoydevelopment.cafeapp.features.menu.domain.impl.GetMenuUseCaseImpl
 import com.pivnoydevelopment.cafeapp.features.auth.domain.impl.LoginUseCaseImpl
@@ -38,4 +41,10 @@ object UseCaseModule {
     @Singleton
     fun provideGetMenuUseCase(coffeeRepository: CoffeeRepository): GetMenuUseCase =
         GetMenuUseCaseImpl(coffeeRepository)
+
+    @Provides
+    @Singleton
+    fun provideCartInteractor(repository: CartRepository): CartInteractor {
+        return CartUseCaseImpl(repository)
+    }
 }

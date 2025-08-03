@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.screen.LoginScreen
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.screen.RegisterScreen
-import com.pivnoydevelopment.cafeapp.features.cart.ui.CartScreen
+import com.pivnoydevelopment.cafeapp.features.cart.ui.screen.CartScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.screen.CoffeeListScreen
 import com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeMapScreen.CoffeeMapScreen
 import com.pivnoydevelopment.cafeapp.features.menu.ui.screen.MenuScreen
@@ -39,9 +39,8 @@ fun NavGraph(navController: NavHostController) {
             val menu = backStackEntry.toRoute<Menu>()
             MenuScreen(navController = navController, id = menu.id)
         }
-        composable<Cart> { backStackEntry ->
-            val cart = backStackEntry.toRoute<Cart>()
-            CartScreen( /* cart.items */ )
+        composable<Cart> {
+            CartScreen(navController = navController)
         }
     }
 }

@@ -32,7 +32,7 @@ import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.locations.util.calculateDistance
-import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.CoffeeItem
+import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.CoffeeItemCard
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.LogoutDialog
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.PermissionDialog
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.event.CoffeeListEvent
@@ -128,7 +128,7 @@ fun CoffeeListScreen(
                 ) {
                     items(state.locations.size) { index ->
                         val location = state.locations[index]
-                        CoffeeItem(
+                        CoffeeItemCard(
                             title = location.name,
                             distance = calculateDistance(
                                 state.userLatitude ?: 0.0,

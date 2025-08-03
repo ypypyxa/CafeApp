@@ -1,4 +1,4 @@
-package com.pivnoydevelopment.cafeapp.core.domain.api
+package com.pivnoydevelopment.cafeapp.core.domain.network.api
 
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.features.auth.domain.model.AuthData

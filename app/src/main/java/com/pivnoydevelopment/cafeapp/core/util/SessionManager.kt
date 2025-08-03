@@ -8,6 +8,13 @@ import javax.inject.Inject
 class SessionManager @Inject constructor(
     private val authDataStore: AuthDataStore
 ) {
+    suspend fun getLoginOrNull(): String? {
+        val authData = authDataStore.authDataFlow.firstOrNull()
+        if (authData != null) {
+            return authData.login
+        }
+        return null
+    }
 
     suspend fun getTokenOrNull(): String? {
         val authData = authDataStore.authDataFlow.firstOrNull()

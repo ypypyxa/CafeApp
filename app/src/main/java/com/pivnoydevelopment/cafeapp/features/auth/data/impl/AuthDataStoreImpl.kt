@@ -18,6 +18,7 @@ class AuthDataStoreImpl @Inject constructor(
 ) : AuthDataStore {
 
     companion object {
+        val LOGIN = stringPreferencesKey("login")
         val TOKEN_KEY = stringPreferencesKey("token")
         val TOKEN_LIFETIME_KEY = longPreferencesKey("token_lifetime")
         val TOKEN_SAVED_AT_KEY = longPreferencesKey("token_saved_at")
@@ -26,12 +27,18 @@ class AuthDataStoreImpl @Inject constructor(
     override val authDataFlow: Flow<AuthData?> = dataStore.data
         .catch { emit(emptyPreferences()) }
         .map { prefs ->
+            val login = prefs[LOGIN]
             val token = prefs[TOKEN_KEY]
             val tokenLifetime = prefs[TOKEN_LIFETIME_KEY]
             val savedAt = prefs[TOKEN_SAVED_AT_KEY]
 
-            if (token != null && tokenLifetime != null && savedAt != null) {
-                AuthData(token, tokenLifetime, savedAt)
+            if (login != null && token != null && tokenLifetime != null && savedAt != null) {
+                AuthData(
+                    login = login,
+                    token = token,
+                    tokenLifeTime = tokenLifetime,
+                    savedAt = savedAt
+                )
             } else {
                 null
             }
@@ -39,6 +46,7 @@ class AuthDataStoreImpl @Inject constructor(
 
     override suspend fun saveAuthData(authData: AuthData) {
         dataStore.edit { prefs ->
+            prefs[LOGIN] = authData.login
             prefs[TOKEN_KEY] = authData.token
             prefs[TOKEN_LIFETIME_KEY] = authData.tokenLifeTime
             prefs[TOKEN_SAVED_AT_KEY] = authData.savedAt

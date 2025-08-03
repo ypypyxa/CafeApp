@@ -1,6 +1,6 @@
 package com.pivnoydevelopment.cafeapp.features.locations.domain.impl
 
-import com.pivnoydevelopment.cafeapp.core.domain.api.CoffeeRepository
+import com.pivnoydevelopment.cafeapp.core.domain.network.api.CoffeeRepository
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.features.locations.domain.model.Location
 import com.pivnoydevelopment.cafeapp.features.locations.domain.usecase.GetLocationsUseCase
