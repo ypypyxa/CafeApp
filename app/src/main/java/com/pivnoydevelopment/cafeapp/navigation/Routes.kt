@@ -24,4 +24,7 @@ data class Menu(
 )
 
 @Serializable
-object Cart
+data class Cart(
+    val id: Int,
+    val name: String
+)

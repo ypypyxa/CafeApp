@@ -36,6 +36,7 @@ import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.menu.ui.components.MenuItemCard
 import com.pivnoydevelopment.cafeapp.features.menu.ui.event.MenuEvent
 import com.pivnoydevelopment.cafeapp.features.menu.ui.viewmodel.MenuViewModel
+import com.pivnoydevelopment.cafeapp.navigation.Cart
 
 @Composable
 fun MenuScreen(
@@ -117,7 +118,7 @@ fun MenuScreen(
                     disabledContentColor = VanillaCream.copy(alpha = 0.5f)
                 ),
                 enabled = state.menuItems.any { it.count > 0 },
-                onClick = { /* TODO переход на экран оплаты */ }
+                onClick = { navController.navigate(Cart(id, name)) }
             ) {
                 Text(
                     text = "Перейти к оплате",

@@ -43,8 +43,13 @@ fun NavGraph(navController: NavHostController) {
                 name = menu.name
             )
         }
-        composable<Cart> {
-            CartScreen(navController = navController)
+        composable<Cart> { backStackEntry ->
+            val cart = backStackEntry.toRoute<Cart>()
+            CartScreen(
+                navController = navController,
+                id = cart.id,
+                name = cart.name
+            )
         }
     }
 }
