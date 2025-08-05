@@ -15,7 +15,7 @@ object Register
 object CoffeeList
 
 @Serializable
-object CoffeeMap
+data class CoffeeMap(val locations: String)
 
 @Serializable
 data class Menu(

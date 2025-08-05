@@ -14,6 +14,7 @@ activityCompose = "1.10.1"
 composeBom = "2025.07.00"
 
 lottieCompose = "6.6.7"
+mapsMobile = "4.19.0-lite"
 navigationCompose = "2.9.3"
 converterGson = "3.0.0"
 hiltAndroid = "2.57"
@@ -45,6 +46,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+maps-mobile = { module = "com.yandex.android:maps.mobile", version.ref = "mapsMobile" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }

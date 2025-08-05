@@ -20,6 +20,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val apiKey = rootProject.extra["mapkitApiKey"] as String
+        buildConfigField("String", "MAPKIT_API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -42,10 +45,14 @@ android {
     }
     buildFeatures {
         compose = true
+        android.buildFeatures.buildConfig = true
     }
 }
 
 dependencies {
+    //Основные компоненты
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     //Hilt
     implementation(libs.hilt.android)
@@ -56,17 +63,15 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    //Картинки и анимации
-    implementation(libs.coil.compose)
-    implementation(libs.lottie.compose)
-
     //Хранение данных
+    //Datastore
     implementation(libs.androidx.datastore.preferences)
+    //Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
-    //Основные компоненты
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
+    //UI
     //Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -75,17 +80,17 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    //Картинки и анимации
+    implementation(libs.coil.compose)
+    implementation(libs.lottie.compose)
 
     //Сериализация
     implementation(libs.kotlinx.serialization.json)
 
     //Геопозиция
     implementation(libs.play.services.location)
-
-    //Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    //Карты
+    implementation(libs.maps.mobile)
 
     //Тесты
     testImplementation(libs.junit)

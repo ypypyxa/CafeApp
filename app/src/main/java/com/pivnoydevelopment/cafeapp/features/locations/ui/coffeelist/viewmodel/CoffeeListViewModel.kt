@@ -1,8 +1,13 @@
 package com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.viewmodel
 
+import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.Priority
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
 import com.pivnoydevelopment.cafeapp.features.locations.domain.usecase.GetLocationsUseCase
@@ -111,20 +116,36 @@ class CoffeeListViewModel @Inject constructor(
 
     fun fetchLastLocation() {
         viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
             try {
-                locationClient.lastLocation.addOnSuccessListener { location ->
-                    location?.let {
-                        _state.update {
-                            it.copy(
-                                userLatitude = location.latitude,
-                                userLongitude = location.longitude
-                            )
+                val locationRequest = LocationRequest.Builder(
+                    Priority.PRIORITY_HIGH_ACCURACY, 2000
+                ).setMaxUpdates(1).build()
+
+                locationClient.requestLocationUpdates(
+                    locationRequest,
+                    object : LocationCallback() {
+                        override fun onLocationResult(result: LocationResult) {
+                            result.lastLocation?.let { freshLocation ->
+                                _state.update {
+                                    it.copy(
+                                        isLoading = false,
+                                        userLatitude = freshLocation.latitude,
+                                        userLongitude = freshLocation.longitude
+                                    )
+                                }
+                                onEvent(CoffeeListEvent.LoadLocations)
+                            }
+                            locationClient.removeLocationUpdates(this)
                         }
-                        onEvent(CoffeeListEvent.LoadLocations)
-                    }
-                }
+                    },
+                    Looper.getMainLooper()
+                )
             } catch (e: SecurityException) {
-                _state.update { it.copy(errorMessage = e.message) }
+                _state.update { it.copy(
+                    isLoading = false,
+                    errorMessage = e.message
+                ) }
             }
         }
     }

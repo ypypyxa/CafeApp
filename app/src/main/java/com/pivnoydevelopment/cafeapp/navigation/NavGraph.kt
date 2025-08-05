@@ -5,11 +5,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.google.gson.Gson
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.screen.LoginScreen
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.screen.RegisterScreen
 import com.pivnoydevelopment.cafeapp.features.cart.ui.screen.CartScreen
+import com.pivnoydevelopment.cafeapp.features.locations.domain.model.Location
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.screen.CoffeeListScreen
-import com.pivnoydevelopment.cafeapp.features.locations.ui.CoffeeMapScreen.CoffeeMapScreen
+import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeemap.screen.CoffeeMapScreen
 import com.pivnoydevelopment.cafeapp.features.menu.ui.screen.MenuScreen
 import com.pivnoydevelopment.cafeapp.features.splash.ui.screen.SplashScreen
 
@@ -29,11 +31,16 @@ fun NavGraph(navController: NavHostController) {
             RegisterScreen(navController)
         }
         composable<CoffeeList> {
-            CoffeeListScreen(navController = navController)
+            CoffeeListScreen(navController)
         }
-        composable<CoffeeMap> {
-            CoffeeMapScreen()
-//            CoffeeMapScreen(navController)
+        composable<CoffeeMap> { backStackEntry ->
+            val coffeeMap = backStackEntry.toRoute<CoffeeMap>()
+            val locationsJson = coffeeMap.locations
+            val locations = Gson().fromJson(locationsJson, Array<Location>::class.java).toList()
+            CoffeeMapScreen(
+                navController = navController,
+                locations = locations
+            )
         }
         composable<Menu> { backStackEntry ->
             val menu = backStackEntry.toRoute<Menu>()

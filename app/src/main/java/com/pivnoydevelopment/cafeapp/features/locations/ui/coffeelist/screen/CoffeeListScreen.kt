@@ -8,10 +8,17 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,17 +26,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
+import com.pivnoydevelopment.cafeapp.core.ui.theme.EspressoDepth
+import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
 import com.pivnoydevelopment.cafeapp.core.ui.theme.White
 import com.pivnoydevelopment.cafeapp.features.locations.util.calculateDistance
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.CoffeeItemCard
@@ -37,6 +51,7 @@ import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components.PermissionDialog
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.event.CoffeeListEvent
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.viewmodel.CoffeeListViewModel
+import com.pivnoydevelopment.cafeapp.navigation.CoffeeMap
 import com.pivnoydevelopment.cafeapp.navigation.Login
 import com.pivnoydevelopment.cafeapp.navigation.Menu
 
@@ -119,12 +134,18 @@ fun CoffeeListScreen(
             DoubleLines()
 
             if (state.isLoading) {
-                Text("Загрузка...", modifier = Modifier.padding(16.dp))
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             } else if (state.errorMessage != null) {
-                Text(state.errorMessage ?: "Ошибка", modifier = Modifier.padding(16.dp))
-            } else {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = state.errorMessage ?: "Ошибка", color = Color.Red)
+                }
+            } else if (state.locations.isNotEmpty()) {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f)
                 ) {
                     items(state.locations.size) { index ->
                         val location = state.locations[index]
@@ -142,6 +163,38 @@ fun CoffeeListScreen(
                         )
                     }
                 }
+
+                Button(
+                    modifier = Modifier
+                        .padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 11.dp,
+                            bottom = 11.dp
+                        )
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = EspressoDepth,
+                        contentColor = VanillaCream,
+                        disabledContainerColor = EspressoDepth.copy(alpha = 0.5f),
+                        disabledContentColor = VanillaCream.copy(alpha = 0.5f)
+                    ),
+                    onClick = {
+                        val locationsJson = Gson().toJson(state.locations)
+                        navController.navigate(CoffeeMap(locationsJson))
+                    }
+                ) {
+                    Text(
+                        text = "На карту",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight(700)
+                    )
+                }
+
+                Spacer(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
+                )
             }
         }
     }
