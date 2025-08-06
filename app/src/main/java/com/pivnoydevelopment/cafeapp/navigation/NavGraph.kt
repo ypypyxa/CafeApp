@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.screen.LoginScreen
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.screen.RegisterScreen
 import com.pivnoydevelopment.cafeapp.features.cart.ui.screen.CartScreen
@@ -35,10 +36,14 @@ fun NavGraph(navController: NavHostController) {
         }
         composable<CoffeeMap> { backStackEntry ->
             val coffeeMap = backStackEntry.toRoute<CoffeeMap>()
+            val userLocationJson = coffeeMap.userLocation
             val locationsJson = coffeeMap.locations
+            val type = object : TypeToken<Pair<Double, Double>>() {}.type
+            val userLocation: Pair<Double, Double>? = Gson().fromJson(userLocationJson, type)
             val locations = Gson().fromJson(locationsJson, Array<Location>::class.java).toList()
             CoffeeMapScreen(
                 navController = navController,
+                userLocation = userLocation,
                 locations = locations
             )
         }

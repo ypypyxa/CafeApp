@@ -181,8 +181,19 @@ fun CoffeeListScreen(
                         disabledContentColor = VanillaCream.copy(alpha = 0.5f)
                     ),
                     onClick = {
+                        val userLocation = state.userLatitude?.let { lat ->
+                            state.userLongitude?.let { lng -> Pair(lat, lng) }
+                        }
+
+                        val userLocationJson = userLocation?.let { Gson().toJson(it) }
                         val locationsJson = Gson().toJson(state.locations)
-                        navController.navigate(CoffeeMap(locationsJson))
+
+                        navController.navigate(
+                            CoffeeMap(
+                                userLocation = userLocationJson,
+                                locations = locationsJson
+                            )
+                        )
                     }
                 ) {
                     Text(

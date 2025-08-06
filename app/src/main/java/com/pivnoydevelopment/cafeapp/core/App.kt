@@ -11,6 +11,5 @@ class App : Application() {
         super.onCreate()
 
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
-        MapKitFactory.initialize(this)
     }
 }
