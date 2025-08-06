@@ -104,7 +104,6 @@ class CartViewModel @Inject constructor(
                 menuItems = updated,
                 totalPrice = calculateTotalPrice(updated)
             )
-
         }
     }
 }

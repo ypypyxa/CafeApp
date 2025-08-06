@@ -2,7 +2,9 @@ package com.pivnoydevelopment.cafeapp.features.auth.ui.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.util.ResourceProvider
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
 import com.pivnoydevelopment.cafeapp.features.auth.domain.usecase.LoginUseCase
 import com.pivnoydevelopment.cafeapp.features.auth.ui.login.event.LoginEvent
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginState())
@@ -47,10 +50,10 @@ class LoginViewModel @Inject constructor(
         val password = _state.value.password
 
         val loginError = if (login.isNotEmpty() && !emailPattern.matcher(login).matches())
-            "Введите корректный e-mail" else null
+            resourceProvider.getString(R.string.invalid_email) else null
 
         val passwordError = if (password.isNotEmpty() && !passwordPattern.matches(password))
-            "Пароль должен содержать минимум 8 символов, заглавные, строчные буквы и цифры" else null
+            resourceProvider.getString(R.string.invalid_password) else null
 
         _state.update {
             it.copy(
@@ -87,7 +90,7 @@ class LoginViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            loginError = "Некорректные данные"
+                            loginError = resourceProvider.getString(R.string.bad_request)
                         )
                     }
                 }
@@ -95,15 +98,17 @@ class LoginViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            loginError = "Неверные имя пользователя или пароль"
+                            loginError = resourceProvider.getString(R.string.user_not_found)
                         )
                     }
                 }
                 is NetworkResult.Error -> {
                     _state.update {
+                        val errorPrefix = resourceProvider.getString(R.string.error_prefix)
+                        val errorMessage = result.message ?: resourceProvider.getString(R.string.unknown_error)
                         it.copy(
                             isLoading = false,
-                            loginError = "Ошибка сервера: ${result.message ?: "Неизвестная"}"
+                            loginError = "$errorPrefix $errorMessage"
                         )
                     }
                 }

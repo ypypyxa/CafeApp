@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.google.gson.Gson
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EspressoDepth
@@ -117,10 +119,17 @@ fun CoffeeListScreen(
         )
     }
 
+    if (state.logout) {
+        viewModel.onEvent(CoffeeListEvent.Logout)
+        navController.navigate(Login) {
+            popUpTo(Login) { inclusive = true }
+        }
+    }
+
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Ближайшие кофейни",
+                title = stringResource(R.string.nearest_coffee),
                 onBackClick = { viewModel.onEvent(CoffeeListEvent.LogoutDialog) }
             )
         }
@@ -138,8 +147,10 @@ fun CoffeeListScreen(
                     CircularProgressIndicator()
                 }
             } else if (state.errorMessage != null) {
+                val errorMessage =
+                    state.errorMessage ?: stringResource(R.string.unknown_error)
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = state.errorMessage ?: "Ошибка", color = Color.Red)
+                    Text(text = errorMessage, color = Color.Red)
                 }
             } else if (state.locations.isNotEmpty()) {
                 LazyColumn(
@@ -197,7 +208,7 @@ fun CoffeeListScreen(
                     }
                 ) {
                     Text(
-                        text = "На карту",
+                        text = stringResource(R.string.to_map),
                         fontSize = 18.sp,
                         fontWeight = FontWeight(700)
                     )

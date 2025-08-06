@@ -2,8 +2,10 @@ package com.pivnoydevelopment.cafeapp.features.menu.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.domain.db.api.CartInteractor
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.util.ResourceProvider
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
 import com.pivnoydevelopment.cafeapp.features.menu.domain.model.MenuItem
 import com.pivnoydevelopment.cafeapp.features.menu.domain.usecase.GetMenuUseCase
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class MenuViewModel @Inject constructor(
     private val getMenuUseCase: GetMenuUseCase,
     private val sessionManager: SessionManager,
-    private val cartUseCase: CartInteractor
+    private val cartUseCase: CartInteractor,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MenuState())
@@ -53,8 +56,9 @@ class MenuViewModel @Inject constructor(
                         syncCartCounts(event.id)
                     }
                     is NetworkResult.Unauthorized -> {
+                        //TODO сделать автоматический выход
                         _state.update {
-                            it.copy(isLoading = false, errorMessage = "Не авторизован")
+                            it.copy(isLoading = false, errorMessage = resourceProvider.getString(R.string.not_logged_in))
                         }
                     }
                     is NetworkResult.Error -> {
@@ -64,12 +68,12 @@ class MenuViewModel @Inject constructor(
                     }
                     else -> {
                         _state.update {
-                            it.copy(isLoading = false, errorMessage = "Неизвестная ошибка")
+                            it.copy(isLoading = false, errorMessage = resourceProvider.getString(R.string.unknown_error))
                         }
                     }
                 }
             } else {
-                _state.update { it.copy(isLoading = false, errorMessage = "Нет токена") }
+                _state.update { it.copy(isLoading = false, errorMessage = resourceProvider.getString(R.string.not_logged_in)) }
             }
         }
     }

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthRequest
 import com.pivnoydevelopment.cafeapp.features.auth.data.dto.AuthResponse
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
@@ -17,9 +18,13 @@ class RetrofitNetworkClient @Inject constructor(
     private val context: Context
 ) : NetworkClient {
 
+    companion object {
+        private const val ERROR_CODE = -1
+    }
+
     override suspend fun login(login: String, password: String): NetworkResult<AuthResponse> {
         if (!isConnected()) {
-            return NetworkResult.Error(-1, "No internet connection")
+            return NetworkResult.Error(ERROR_CODE, context.getString(R.string.no_internet_connection))
         }
 
         return try {
@@ -31,13 +36,13 @@ class RetrofitNetworkClient @Inject constructor(
                 else -> NetworkResult.Error(response.code(), response.errorBody()?.string())
             }
         } catch (e: Exception) {
-            NetworkResult.Error(-1, e.message)
+            NetworkResult.Error(ERROR_CODE, e.message)
         }
     }
 
     override suspend fun register(login: String, password: String): NetworkResult<AuthResponse> {
         if (!isConnected()) {
-            return NetworkResult.Error(-1, "No internet connection")
+            return NetworkResult.Error(ERROR_CODE, context.getString(R.string.no_internet_connection))
         }
 
         return try {
@@ -49,13 +54,13 @@ class RetrofitNetworkClient @Inject constructor(
                 else -> NetworkResult.Error(response.code(), response.errorBody()?.string())
             }
         } catch (e: Exception) {
-            NetworkResult.Error(-1, e.message)
+            NetworkResult.Error(ERROR_CODE, e.message)
         }
     }
 
     override suspend fun getLocations(token: String): NetworkResult<LocationsResponse> {
         if (!isConnected()) {
-            return NetworkResult.Error(-1, "No internet connection")
+            return NetworkResult.Error(ERROR_CODE, context.getString(R.string.no_internet_connection))
         }
 
         return try {
@@ -66,13 +71,13 @@ class RetrofitNetworkClient @Inject constructor(
                 else -> NetworkResult.Error(response.code(), response.errorBody()?.string())
             }
         } catch (e: Exception) {
-            NetworkResult.Error(-1, e.message)
+            NetworkResult.Error(ERROR_CODE, e.message)
         }
     }
 
     override suspend fun getMenu(token: String, locationId: Int): NetworkResult<MenuResponse> {
         if (!isConnected()) {
-            return NetworkResult.Error(-1, "No internet connection")
+            return NetworkResult.Error(ERROR_CODE, context.getString(R.string.no_internet_connection))
         }
 
         return try {
@@ -83,7 +88,7 @@ class RetrofitNetworkClient @Inject constructor(
                 else -> NetworkResult.Error(response.code(), response.errorBody()?.string())
             }
         } catch (e: Exception) {
-            NetworkResult.Error(-1, e.message)
+            NetworkResult.Error(ERROR_CODE, e.message)
         }
     }
 

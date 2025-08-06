@@ -1,6 +1,8 @@
 package com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomDialog
 
 @Composable
@@ -9,11 +11,11 @@ fun PermissionDialog(
     onDismiss: () -> Unit
 ) {
     CustomDialog(
-        title = "Доступ к геолокации",
-        text = "Чтобы показать ближайшие кофейни, включите доступ к местоположению в настройках.",
-        confirmText = "Открыть настройки",
+        title = stringResource(R.string.geo_permission_title),
+        text = stringResource(R.string.geo_permission_text),
+        confirmText = stringResource(R.string.open_settings),
         onConfirm = onOpenSettings,
-        dismissText = "Продолжить",
+        dismissText = stringResource(R.string.cont),
         onDismiss = onDismiss
     )
 }
@@ -24,11 +26,11 @@ fun LogoutDialog(
     onDismiss: () -> Unit
 ) {
     CustomDialog(
-        title = "Выход из аккаунта",
-        text = "Вы действительно хотите выйти из аккаунта?",
-        confirmText = "Да",
+        title = stringResource(R.string.log_out_title),
+        text = stringResource(R.string.log_out_text),
+        confirmText = stringResource(R.string.yes),
         onConfirm = onConfirm,
-        dismissText = "Нет",
+        dismissText = stringResource(R.string.no),
         onDismiss = onDismiss
     )
 }

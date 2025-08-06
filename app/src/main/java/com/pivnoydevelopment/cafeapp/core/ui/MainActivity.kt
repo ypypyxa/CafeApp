@@ -21,5 +21,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//WindowInsets.statusBars.asPaddingValues().calculateTopPadding()

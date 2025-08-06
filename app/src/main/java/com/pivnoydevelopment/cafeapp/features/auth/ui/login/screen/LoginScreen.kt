@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTextField
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
@@ -57,7 +59,7 @@ fun LoginScreen(
 
     Scaffold(
         topBar = {
-            CustomTopAppBar(title = "Вход")
+            CustomTopAppBar(title = stringResource(R.string.log_in))
         }
     ) { innerPadding ->
         Column(modifier = Modifier
@@ -77,7 +79,7 @@ fun LoginScreen(
                         .padding(horizontal = 16.dp),
                     value = state.login,
                     onValueChange = { viewModel.onEvent(LoginEvent.LoginChanged(it))},
-                    label = "E-mail",
+                    label = stringResource(R.string.email),
                     errorMessage = state.loginError,
                     isEmail = true
                 )
@@ -91,7 +93,7 @@ fun LoginScreen(
                         ),
                     value = state.password,
                     onValueChange = { viewModel.onEvent(LoginEvent.PasswordChanged(it)) },
-                    label = "Пароль",
+                    label = stringResource(R.string.password),
                     errorMessage = state.passwordError,
                     isPassword = true
                 )
@@ -115,7 +117,10 @@ fun LoginScreen(
                     onClick = { viewModel.onEvent(LoginEvent.Submit) }
                 ) {
                     Text(
-                        text = if (state.isLoading) "Загрузка..." else "Войти",
+                        text = if (state.isLoading)
+                            stringResource(R.string.loading)
+                        else
+                            stringResource(R.string.log_in),
                         fontSize = 18.sp,
                         fontWeight = FontWeight(700)
                     )
@@ -135,7 +140,7 @@ fun LoginScreen(
                         textAlign = TextAlign.Center,
                         color = EmeraldSprout,
                         fontWeight = FontWeight(700),
-                        text = "Нет аккаунта? Регистрация",
+                        text = stringResource(R.string.no_account),
                         textDecoration = TextDecoration.Underline
                     )
                 }

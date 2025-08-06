@@ -2,7 +2,9 @@ package com.pivnoydevelopment.cafeapp.features.auth.ui.register.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.util.ResourceProvider
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
 import com.pivnoydevelopment.cafeapp.features.auth.domain.usecase.RegisterUseCase
 import com.pivnoydevelopment.cafeapp.features.auth.ui.register.event.RegisterEvent
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(RegisterState())
@@ -52,14 +55,16 @@ class RegisterViewModel @Inject constructor(
         val confirmPassword = _state.value.confirmPassword
 
         val loginError = if (login.isNotEmpty() && !emailPattern.matcher(login).matches())
-            "Введите корректный e-mail" else null
+            resourceProvider.getString(R.string.invalid_email)
+        else null
 
         val passwordError = if (password.isNotEmpty() && !passwordPattern.matches(password))
-            "Пароль должен содержать минимум 8 символов, заглавные, строчные буквы и цифры"
+            resourceProvider.getString(R.string.invalid_password)
         else null
 
         val confirmPasswordError = if (confirmPassword.isNotEmpty() && confirmPassword != password)
-            "Пароли не совпадают" else null
+            resourceProvider.getString(R.string.confirm_password_error)
+        else null
 
         _state.update {
             it.copy(
@@ -94,7 +99,7 @@ class RegisterViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            loginError = "Такой логин уже существует"
+                            loginError = resourceProvider.getString(R.string.login_exist)
                         )
                     }
                 }
@@ -102,15 +107,17 @@ class RegisterViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            loginError = "Некорректные данные"
+                            loginError = resourceProvider.getString(R.string.bad_request)
                         )
                     }
                 }
                 is NetworkResult.Error -> {
                     _state.update {
+                        val errorPrefix = resourceProvider.getString(R.string.error_prefix)
+                        val errorMessage = result.message ?: resourceProvider.getString(R.string.unknown_error)
                         it.copy(
                             isLoading = false,
-                            loginError = "Ошибка сервера: ${result.message ?: "Неизвестная"}"
+                            loginError = "$errorPrefix $errorMessage"
                         )
                     }
                 }

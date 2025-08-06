@@ -22,12 +22,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EspressoDepth
@@ -54,7 +56,7 @@ fun CartScreen(
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Ваш Заказ",
+                title = stringResource(R.string.cart),
                 onBackClick = { navController.popBackStack() }
             )
         }
@@ -133,11 +135,12 @@ fun CartScreen(
                                 top = 10.dp,
                                 bottom = 10.dp
                             ),
-                        text = "Итого:",
+                        text = stringResource(R.string.order_price),
                         fontSize = 20.sp,
                         fontWeight = FontWeight(700),
                         color = ToffieShade
                     )
+                    val priceSuffix = stringResource(R.string.price_suffix)
                     Text(
                         modifier = Modifier
                             .padding(
@@ -146,7 +149,7 @@ fun CartScreen(
                                 top = 10.dp,
                                 bottom = 10.dp
                             ),
-                        text = "${state.totalPrice} руб",
+                        text = "${state.totalPrice} $priceSuffix",
                         fontSize = 20.sp,
                         fontWeight = FontWeight(700),
                         color = ToffieShade
@@ -155,9 +158,7 @@ fun CartScreen(
 
                 if (state.isSubmiting) {
                     Text(
-                        text = "Время ожидания заказа\n" +
-                                "15 минут!\n" +
-                                "Спасибо, что выбрали нас!",
+                        text = stringResource(R.string.order_submitted),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight(500),
                         fontSize = 24.sp,
@@ -186,7 +187,7 @@ fun CartScreen(
                 onClick = { viewModel.onEvent(CartEvent.SubmitOrder(id)) }
             ) {
                 Text(
-                    text = "Оплатить",
+                    text = stringResource(R.string.submit_order),
                     fontSize = 18.sp,
                     fontWeight = FontWeight(700)
                 )

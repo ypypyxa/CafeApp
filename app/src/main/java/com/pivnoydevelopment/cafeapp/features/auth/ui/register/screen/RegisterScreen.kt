@@ -13,15 +13,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTextField
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
@@ -50,7 +51,7 @@ fun RegisterScreen(
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Регистрация",
+                title = stringResource(R.string.register),
                 onBackClick = { navController.popBackStack() }
             )
         }
@@ -72,7 +73,7 @@ fun RegisterScreen(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     value = state.login,
                     onValueChange = { viewModel.onEvent(RegisterEvent.LoginChanged(it)) },
-                    label = "E-mail",
+                    label = stringResource(R.string.email),
                     errorMessage = state.loginError,
                     isEmail = true
                 )
@@ -81,7 +82,7 @@ fun RegisterScreen(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
                     value = state.password,
                     onValueChange = { viewModel.onEvent(RegisterEvent.PasswordChanged(it)) },
-                    label = "Пароль",
+                    label = stringResource(R.string.password),
                     isPassword = true,
                     errorMessage = state.passwordError
                 )
@@ -90,7 +91,7 @@ fun RegisterScreen(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
                     value = state.confirmPassword,
                     onValueChange = { viewModel.onEvent(RegisterEvent.ConfirmPasswordChanged(it)) },
-                    label = "Подтверждение пароля",
+                    label = stringResource(R.string.confirm_password),
                     isPassword = true,
                     errorMessage = state.confirmPasswordError
                 )
@@ -110,7 +111,10 @@ fun RegisterScreen(
                     onClick = { viewModel.onEvent(RegisterEvent.Submit) }
                 ) {
                     Text(
-                        text = if (state.isLoading) "Загрузка..." else "Регистрация",
+                        text = if (state.isLoading)
+                            stringResource(R.string.loading)
+                        else
+                            stringResource(R.string.register),
                         fontSize = 18.sp,
                         fontWeight = FontWeight(700)
                     )

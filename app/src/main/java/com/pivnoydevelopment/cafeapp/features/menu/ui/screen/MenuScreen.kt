@@ -23,11 +23,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EspressoDepth
@@ -54,7 +56,7 @@ fun MenuScreen(
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Меню",
+                title = stringResource(R.string.menu),
                 onBackClick = { navController.popBackStack() }
             )
         }
@@ -74,8 +76,10 @@ fun MenuScreen(
                     }
                 }
                 state.errorMessage != null -> {
+                    val errorMessage =
+                        state.errorMessage ?: stringResource(R.string.unknown_error)
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(text = state.errorMessage ?: "Ошибка", color = Color.Red)
+                        Text(text = errorMessage, color = Color.Red)
                     }
                 }
                 else -> {
@@ -121,7 +125,7 @@ fun MenuScreen(
                 onClick = { navController.navigate(Cart(id, name)) }
             ) {
                 Text(
-                    text = "Перейти к оплате",
+                    text = stringResource(R.string.to_cart),
                     fontSize = 18.sp,
                     fontWeight = FontWeight(700)
                 )

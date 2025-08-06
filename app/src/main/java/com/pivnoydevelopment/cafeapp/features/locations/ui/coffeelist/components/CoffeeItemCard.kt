@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieGlaze
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieShade
 import com.pivnoydevelopment.cafeapp.core.ui.theme.VanillaCream
@@ -67,11 +69,13 @@ fun CoffeeItemCard(
             ),
             text =
                 if (distance == null) {
-                    "Расстояние неизвестно"
+                    stringResource(R.string.unknown_distance)
                 } else if (distance < 1) {
-                    "${(distance * 1000).toInt()}м от Вас"
+                    val distanceSuffix = stringResource(R.string.distance_suffix_m)
+                    "${(distance * 1000).toInt()}$distanceSuffix"
                 } else {
-                    String.format(Locale.getDefault(), "%.0fкм от Вас", distance)
+                    val distanceSuffix = stringResource(R.string.distance_suffix_km)
+                    String.format(Locale.getDefault(), "%.0f$distanceSuffix", distance)
                 },
             color = ToffieGlaze,
             fontSize = 14.sp,

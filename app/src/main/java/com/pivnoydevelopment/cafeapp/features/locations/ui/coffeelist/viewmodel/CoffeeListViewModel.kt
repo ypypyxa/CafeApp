@@ -8,7 +8,9 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority
+import com.pivnoydevelopment.cafeapp.R
 import com.pivnoydevelopment.cafeapp.core.util.NetworkResult
+import com.pivnoydevelopment.cafeapp.core.util.ResourceProvider
 import com.pivnoydevelopment.cafeapp.core.util.SessionManager
 import com.pivnoydevelopment.cafeapp.features.locations.domain.usecase.GetLocationsUseCase
 import com.pivnoydevelopment.cafeapp.features.locations.ui.coffeelist.event.CoffeeListEvent
@@ -24,7 +26,8 @@ import javax.inject.Inject
 class CoffeeListViewModel @Inject constructor(
     private val getLocationsUseCase: GetLocationsUseCase,
     private val sessionManager: SessionManager,
-    private val locationClient: FusedLocationProviderClient
+    private val locationClient: FusedLocationProviderClient,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CoffeeListState())
@@ -83,7 +86,7 @@ class CoffeeListViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true, errorMessage = null) }
             val token = sessionManager.getTokenOrNull()
             if (token == null) {
-                _state.update { it.copy(isLoading = false, errorMessage = "Токен не найден") }
+                _state.update { it.copy(isLoading = false, logout = true) }
                 return@launch
             }
 
@@ -97,7 +100,7 @@ class CoffeeListViewModel @Inject constructor(
                 }
                 is NetworkResult.Unauthorized -> {
                     _state.update {
-                        it.copy(isLoading = false, errorMessage = "Не авторизован")
+                        it.copy(isLoading = false, logout = true)
                     }
                 }
                 is NetworkResult.Error -> {
@@ -106,8 +109,9 @@ class CoffeeListViewModel @Inject constructor(
                     }
                 }
                 else -> {
+                    val errorMessage = resourceProvider.getString(R.string.unknown_error)
                     _state.update {
-                        it.copy(isLoading = false, errorMessage = "Неизвестная ошибка")
+                        it.copy(isLoading = false, errorMessage = errorMessage)
                     }
                 }
             }

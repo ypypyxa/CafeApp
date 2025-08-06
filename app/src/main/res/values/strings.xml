@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">CoffeeSpot</string>
+
+    <string name="not_logged_in">Пользователь не залогинен</string>
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
+    <string name="back">Назад</string>
+    <string name="log_in">Войти</string>
+    <string name="email">E-mail</string>
+    <string name="password">Пароль</string>
+    <string name="loading">Загрузка…</string>
+    <string name="no_account">Нет аккаунта? Регистрация</string>
+    <string name="invalid_email">Введите корректный e-mail</string>
+    <string name="invalid_password">Пароль должен содержать минимум 8 символов, заглавные, строчные буквы и цифры</string>
+    <string name="bad_request">Некорректные данные</string>
+    <string name="user_not_found">Пользователь не найден</string>
+    <string name="error_prefix">Ошибка сервера:</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="register">Регистрация</string>
+    <string name="confirm_password">Подтверждение пароля</string>
+    <string name="confirm_password_error">Пароли не совпадают</string>
+    <string name="login_exist">Такой логин уже существует</string>
+    <string name="price_suffix">руб</string>
+    <string name="cart">Ваш заказ</string>
+    <string name="increase">Добавить</string>
+    <string name="decrease">Убрать</string>
+    <string name="submit_order">Оплатить</string>
+    <string name="order_submitted">Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!</string>
+    <string name="order_price">Итого:</string>
+    <string name="unknown_distance">Расстояние неизвестно</string>
+    <string name="distance_suffix_m">м от Вас</string>
+    <string name="distance_suffix_km">км от Вас</string>
+    <string name="geo_permission_title">Доступ к геолокации</string>
+    <string name="geo_permission_text">Чтобы показать ближайшие кофейни, включите доступ к местоположению в настройках.</string>
+    <string name="open_settings">Открыть настройки</string>
+    <string name="cont">Продолжить</string>
+    <string name="log_out_title">Выход из аккаунта</string>
+    <string name="log_out_text">Вы действительно хотите выйти из аккаунта?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="nearest_coffee">Ближайшие кофейни</string>
+    <string name="to_map">На карту</string>
+    <string name="map">Карта</string>
+    <string name="menu">Меню</string>
+    <string name="to_cart">Перейти к оплате</string>
 </resources>

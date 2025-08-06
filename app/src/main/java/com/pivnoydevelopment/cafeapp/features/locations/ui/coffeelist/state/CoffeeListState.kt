@@ -9,5 +9,6 @@ data class CoffeeListState(
     val userLongitude: Double? = null,
     val showPermissionDialog: Boolean = false,
     val errorMessage: String? = null,
-    val showLogoutDialog: Boolean = false
+    val showLogoutDialog: Boolean = false,
+    val logout: Boolean = false
 )
