@@ -32,11 +32,11 @@
 git clone https://github.com/ypypyxa/CafeApp
 ```
 2. Открыть в Android Studio
-3. Создать файл `developer.properties` в корне проекта, вставить туда строчку с вашим ключом для Яндекс.Mapkit вида
+3. Создать файл `developer.properties` в корне проекта, вставить туда строчку с вашим ключом для Яндекс.Mapkit вида:
 ```
 MAPKIT_API_KEY = YOUR_API_KEY
 ```
-  и собрать проект
+    и собрать проект
 
 5. minSdk 29(Android 10)
 
