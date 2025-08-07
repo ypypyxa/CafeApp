@@ -36,7 +36,7 @@ git clone https://github.com/ypypyxa/CafeApp
 ```
 MAPKIT_API_KEY = YOUR_API_KEY
 ```
-и собрать проект
+  и собрать проект
 
 5. minSdk 29(Android 10)
 
