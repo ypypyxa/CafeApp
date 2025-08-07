@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pivnoydevelopment.cafeapp.R
-import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTextField
+import com.pivnoydevelopment.cafeapp.core.ui.components.CustomEditTextField
 import com.pivnoydevelopment.cafeapp.core.ui.components.CustomTopAppBar
 import com.pivnoydevelopment.cafeapp.core.ui.components.DoubleLines
 import com.pivnoydevelopment.cafeapp.core.ui.theme.EmeraldSprout
@@ -74,7 +74,7 @@ fun LoginScreen(
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Center
             ) {
-                CustomTextField(
+                CustomEditTextField(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
                     value = state.login,
@@ -84,7 +84,7 @@ fun LoginScreen(
                     isEmail = true
                 )
 
-                CustomTextField(
+                CustomEditTextField(
                     modifier = Modifier
                         .padding(
                             start = 16.dp,

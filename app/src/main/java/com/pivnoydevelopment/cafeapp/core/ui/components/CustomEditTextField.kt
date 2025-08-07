@@ -27,7 +27,7 @@ import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieGlaze
 import com.pivnoydevelopment.cafeapp.core.ui.theme.ToffieShade
 
 @Composable
-fun CustomTextField(
+fun CustomEditTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
